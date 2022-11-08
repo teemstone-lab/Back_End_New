@@ -11,23 +11,14 @@ use tokio_postgres::NoTls;
 #[actix_web::main] 
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-
-    // let config_ = Config::builder()
-    //     .add_source(::config::Environment::default())
-    //     .build()
-    //     .unwrap();
     let _dbinfo = pgmanager::load_db();
-    
-    
+ 
     let mut config_ = deadpool_postgres::Config::new();
     config_.host = Some(_dbinfo.host.clone());
     config_.port = Some(_dbinfo.port.parse::<u16>().unwrap());
     config_.user = Some(_dbinfo.user.clone());
     config_.password = Some(_dbinfo.password.clone());
     config_.dbname = Some(_dbinfo.dbname.clone());
-    
-
-    //let config: ServerConfig = config_.try_deserialize().unwrap();
 
     let pool = config_.create_pool(None, NoTls).unwrap();
 
