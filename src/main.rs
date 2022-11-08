@@ -9,7 +9,7 @@ use tokio_postgres::NoTls;
 
 
 #[actix_web::main] 
-async fn main() -> std::io::Result<()> {
+async fn main() -> std::io::Result<()> {   
     dotenv().ok();
     let _dbinfo = pgmanager::load_db();
  
