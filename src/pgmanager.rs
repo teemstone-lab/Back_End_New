@@ -65,6 +65,17 @@ pub fn load_db() -> &'static dbmodel::DBModel{
   }
 }
 
+pub async fn create_table(db_pool: Pool){
+  let client: Client = db_pool.get().await.map_err(MyError::PoolError).unwrap();
+
+  client.batch_execute("
+        CREATE TABLE IF NOT EXISTS tbpane (
+          _number          Integer PRIMARY KEY,
+          _data            text
+          )
+    ").await.unwrap();
+}
+
 pub async fn set_pane_data(pane_data: web::Json<dbmodel::SetPaneJsonData>, db_pool: web::Data<Pool>) -> String {
   let str_panedata: String;
   let str_dbdata: String = get_pane_check(pane_data.number, db_pool.clone()).await;

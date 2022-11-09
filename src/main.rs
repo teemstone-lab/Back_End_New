@@ -22,6 +22,8 @@ async fn main() -> std::io::Result<()> {
 
     let pool = config_.create_pool(None, NoTls).unwrap();
 
+    pgmanager::create_table(pool.clone()).await;
+
     let server = HttpServer::new(move || {
 
         let cors = Cors::default()
