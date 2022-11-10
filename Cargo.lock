@@ -273,6 +273,7 @@ dependencies = [
  "lazy_static",
  "rust-ini",
  "serde",
+ "serde_json",
  "tokio-pg-mapper",
  "tokio-pg-mapper-derive",
  "tokio-postgres",

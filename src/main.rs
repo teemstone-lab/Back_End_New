@@ -40,6 +40,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .service(web::resource("/getPane/{page_id}").route(web::get().to(pgmanager::get_pane)))
             .service(web::resource("/setPane").route(web::post().to(pgmanager::set_pane_data)))
+            .service(web::resource("/getTreeAll").route(web::get().to(pgmanager::get_tree_all_data)))
+            .service(web::resource("/getTree/{beforetime}").route(web::get().to(pgmanager::get_tree_data)))
     })
         .bind("127.0.0.1:8000".clone())?
         .run();
