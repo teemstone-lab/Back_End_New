@@ -163,7 +163,7 @@ pub async fn get_pane(_page_id: web::Path<i32>, db_pool: web::Data<Pool>) -> Str
 }
 
 pub async fn get_tree_all_data(db_pool: web::Data<Pool>) ->  String  {
-  let mut vec:Vec<dbmodel::tree_data> = Vec::new();
+  let mut vec:Vec<dbmodel::TreeData> = Vec::new();
 
   let client: Client = db_pool.get().await.map_err(MyError::PoolError).unwrap();
   for row in client.query("SELECT * FROM tbtree", &[]).await.unwrap(){
@@ -172,7 +172,7 @@ pub async fn get_tree_all_data(db_pool: web::Data<Pool>) ->  String  {
     let _name = row.get("_name");
     let _depth = row.get("_depth");
     let _time = row.get("_time");
-    vec.push(dbmodel::tree_data{_id: _id, _name: _name, _status: _status, _depth: _depth, _time: _time});
+    vec.push(dbmodel::TreeData{_id: _id, _name: _name, _status: _status, _depth: _depth, _time: _time});
   }
 
   let json = serde_json::to_string(&vec).unwrap();
@@ -181,7 +181,7 @@ pub async fn get_tree_all_data(db_pool: web::Data<Pool>) ->  String  {
 
 
 pub async fn get_tree_data(beforetime: web::Path<i32>,db_pool: web::Data<Pool>) ->  String  {
-  let mut vec:Vec<dbmodel::tree_data> = Vec::new();
+  let mut vec:Vec<dbmodel::TreeData> = Vec::new();
   let _oldtime = beforetime.into_inner();
   let client: Client = db_pool.get().await.map_err(MyError::PoolError).unwrap();
   for row in client.query("SELECT * FROM tbtree where _time > $1", &[&_oldtime]).await.unwrap(){
@@ -190,7 +190,7 @@ pub async fn get_tree_data(beforetime: web::Path<i32>,db_pool: web::Data<Pool>) 
     let _name = row.get("_name");
     let _depth = row.get("_depth");
     let _time = row.get("_time");
-    vec.push(dbmodel::tree_data{_id: _id, _name: _name, _status: _status, _depth: _depth, _time: _time});
+    vec.push(dbmodel::TreeData{_id: _id, _name: _name, _status: _status, _depth: _depth, _time: _time});
   }
 
   let json = serde_json::to_string(&vec).unwrap();

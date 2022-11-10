@@ -15,7 +15,7 @@ pub struct DBModel {
 }
 
 #[derive(Serialize)]
-pub struct tree_data{
+pub struct TreeData{
   pub _id: i32,
   pub _status: i32,
   pub _name: String,
